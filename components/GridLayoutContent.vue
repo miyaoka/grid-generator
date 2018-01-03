@@ -2,13 +2,14 @@
   <section
     class="grid"
     :style="gridStyle"
+    :class="{ 'is-combinable': isCombinable }"
   >
     <div
       v-for="(area, i) in uniqueAreas"
       :key="i"
       :style="{'grid-area': area }"
       class="grid-cell"
-      :class="{selected:$store.state.selectedAreas[area]}"
+      :class="{selected:$store.state.selectedAreaMap[area]}"
       @click.self="toggleArea({area})"
     >
       <FocusInput
@@ -21,12 +22,16 @@
         v-if="isMultiple(area)"
         @click="breakArea({area})"
       >break</button>
+      <button
+        v-if="isCombinable"
+        @click="combineArea({area})"
+      >combine</button>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import FocusInput from '~/components/FocusInput.vue'
 
 export default {
@@ -35,20 +40,15 @@ export default {
   },
   computed: {
     ...mapState(['areas', 'columns', 'rows']),
-    flatAreas() {
-      return this.areas.reduce((prev, curr) => [...prev, ...curr])
-    },
+    ...mapGetters(['flattenAreas', 'isCombinable']),
     uniqueAreas() {
       return Object.keys(this.areaCount)
     },
     areaCount() {
-      return this.flatAreas.reduce((map, area) => {
+      return this.flattenAreas.reduce((map, area) => {
         map[area] = map[area] ? map[area] + 1 : 1
         return map
       }, {})
-    },
-    areaNames() {
-      return Object.keys(this.areaCount)
     },
     gridStyle() {
       return {
@@ -59,7 +59,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['breakArea', 'renameArea', 'toggleArea']),
+    ...mapMutations(['breakArea', 'renameArea', 'toggleArea', 'combineArea']),
     isMultiple(area: string) {
       return this.areaCount[area] > 1
     }
@@ -85,6 +85,9 @@ export default {
   align-items: center;
 
   &.selected {
+    .is-combinable & {
+      background: #0f0;
+    }
     background: #ff0;
   }
 }

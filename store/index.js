@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+const getCoords = (col, i) => {
+  return [Math.floor(i % col), Math.floor(i / col)]
+}
 export const state = () => ({
   areas: [
     ['header', 'header', 'header'],
@@ -8,9 +11,42 @@ export const state = () => ({
   ],
   columns: ['120px', '4fr', '1fr'],
   rows: ['160px', '1fr', '80px'],
-  selectedAreas: {}
+  selectedAreaMap: {}
 })
-export const getters = {}
+export const getters = {
+  selectedAreaKeys: (state) => {
+    return Object.keys(state.selectedAreaMap)
+  },
+  flattenAreas: (state) => {
+    return state.areas.reduce((prev, curr) => [...prev, ...curr])
+  },
+  isCombinable: (state, getters) => {
+    if (getters.selectedAreaKeys.length < 2) return false
+
+    const c = state.columns.length
+    const minCoords = getters.selectedAreaKeys.map((selectedArea) =>
+      getCoords(c, getters.flattenAreas.indexOf(selectedArea))
+    )
+    const maxCoords = getters.selectedAreaKeys.map((selectedArea) =>
+      getCoords(c, getters.flattenAreas.lastIndexOf(selectedArea))
+    )
+    const min = minCoords.reduce((prev, curr) => [
+      Math.min(prev[0], curr[0]),
+      Math.min(prev[1], curr[1])
+    ])
+    const max = maxCoords.reduce((prev, curr) => [
+      Math.max(prev[0], curr[0]),
+      Math.max(prev[1], curr[1])
+    ])
+
+    for (let row = min[1]; row <= max[1]; row++) {
+      for (let col = min[0]; col <= max[0]; col++) {
+        if (!state.selectedAreaMap[state.areas[row][col]]) return false
+      }
+    }
+    return true
+  }
+}
 export const mutations = {
   areas(state, payload) {
     state.areas = payload
@@ -50,18 +86,23 @@ export const mutations = {
   },
   breakArea(state, { area }) {
     let i = 0
-    console.log('break', area)
     state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
+    Vue.delete(state.selectedAreaMap, [area])
   },
   toggleArea(state, { area }) {
-    console.log(area)
-    if (state.selectedAreas[area]) {
-      Vue.delete(state.selectedAreas, [area])
+    if (state.selectedAreaMap[area]) {
+      Vue.delete(state.selectedAreaMap, [area])
     } else {
-      state.selectedAreas = {
-        ...state.selectedAreas,
+      state.selectedAreaMap = {
+        ...state.selectedAreaMap,
         [area]: true
       }
     }
+  },
+  combineArea(state, { area }) {
+    state.areas = state.areas.map((row) =>
+      row.map((col) => (state.selectedAreaMap[col] ? area : col))
+    )
+    state.selectedAreaMap = { [area]: true }
   }
 }
