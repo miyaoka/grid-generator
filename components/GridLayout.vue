@@ -55,6 +55,16 @@
     <GridLayoutContent
       class="content"
     />
+    <div class="grid-corner">
+      <button
+        @click="insertColumn({index: 0})"
+        class="grid-corner-col"
+      >+</button>
+      <button
+        @click="insertRow({index: 0})"
+        class="grid-corner-row"
+      >+</button>
+    </div>
 
   </div>
 </template>
@@ -109,7 +119,7 @@ export default {
 <style lang="scss" scoped>
 .grid {
   display: grid;
-  grid-template-areas: '. columns' 'rows content';
+  grid-template-areas: 'corner columns' 'rows content';
   grid-template-columns: 100px 1fr;
   grid-template-rows: 50px 1fr;
 
@@ -143,6 +153,18 @@ export default {
   .grid-input {
     width: 100%;
     font-size: 16px;
+  }
+}
+
+.grid-corner {
+  grid-area: 'corner';
+  display:grid;
+
+  &-row {
+    justify-self: center;
+  }
+  &-col {
+    justify-self: end;
   }
 }
 </style>
