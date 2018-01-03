@@ -21,10 +21,10 @@ export const mutations = {
   renameArea(state, { oldValue, newValue }) {
     state.areas = state.areas.map((area) => area.map((a) => (a === oldValue ? newValue : a)))
   },
-  column(state, { index, value }) {
+  updateColumn(state, { index, value }) {
     state.columns.splice(index, 1, value)
   },
-  row(state, { index, value }) {
+  updateRow(state, { index, value }) {
     state.rows.splice(index, 1, value)
   },
   breakArea(state, { area }) {

@@ -13,7 +13,7 @@
         <input
           type="text"
           :value="column"
-          @input="updateColumn(i, $event.target.value)"
+          @input="updateColumn({index: i, value: $event.target.value})"
         >
       </div>
     </div>
@@ -30,7 +30,7 @@
         <input
           type="text"
           :value="row"
-          @input="updateRow(i, $event.target.value)"
+          @input="updateRow({index: i, value: $event.target.value})"
         >
       </div>
     </div>
@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import GridLayoutContent from '~/components/GridLayoutContent.vue'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -76,12 +76,7 @@ export default {
     }
   },
   methods: {
-    updateColumn(index: number, value: string) {
-      this.$store.commit('column', { index, value })
-    },
-    updateRow(index: number, value: string) {
-      this.$store.commit('row', { index, value })
-    }
+    ...mapMutations(['updateColumn', 'updateRow'])
   }
 }
 </script>
