@@ -12,7 +12,8 @@
       >
         <input
           type="text"
-          v-model="columns[i]"
+          :value="columns[i]"
+          @input="updateColumn(i, $event.target.value)"
         >
       </div>
     </div>
@@ -28,14 +29,12 @@
       >
         <input
           type="text"
-          v-model="rows[i]"
+          :value="columns[i]"
+          @input="updateRow(i, $event.target.value)"
         >
       </div>
     </div>
     <GridLayoutContent
-      :areas="areas"
-      :columns="columns"
-      :rows="rows"
       class="content"
     />
 
@@ -44,17 +43,21 @@
 
 <script lang="ts">
 import GridLayoutContent from '~/components/GridLayoutContent.vue'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     GridLayoutContent
   },
-  props: {
-    areas: { type: Array, required: true },
-    columns: { type: Array, required: true },
-    rows: { type: Array, required: true }
+  filters: {
+    gridArea(prefix: string, index: string) {
+      return {
+        'grid-area': `${prefix}${index}`
+      }
+    }
   },
   computed: {
+    ...mapState(['areas', 'columns', 'rows']),
     columnStyle() {
       return {
         'grid-template-columns': this.columns.join(' '),
@@ -72,11 +75,12 @@ export default {
       }
     }
   },
-  filters: {
-    gridArea(prefix: string, index: string) {
-      return {
-        'grid-area': `${prefix}${index}`
-      }
+  methods: {
+    updateColumn(index: number, value: string) {
+      this.$store.commit('column', { index, value })
+    },
+    updateRow(index: number, value: string) {
+      this.$store.commit('row', { index, value })
     }
   }
 }

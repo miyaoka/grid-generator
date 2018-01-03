@@ -9,29 +9,29 @@
       :style="{'grid-area': area }"
       class="grid-cell"
     >
-      {{area}}
+      <p>{{area}} {{areaCount[area]}}</p>
+      <button v-if="isMultiple(area)">break</button>
     </div>
   </section>
 </template>
 
 <script lang="ts">
+import { mapState } from 'vuex'
+
 export default {
-  props: {
-    areas: { type: Array, required: true },
-    columns: { type: Array, required: true },
-    rows: { type: Array, required: true }
-  },
   computed: {
+    ...mapState(['areas', 'columns', 'rows']),
     flatAreas() {
       return this.areas.reduce((prev, curr) => [...prev, ...curr])
     },
+    areaCount() {
+      return this.areas.reduce((prev, curr) => [...prev, ...curr]).reduce((map, area) => {
+        map[area] = map[area] ? map[area] + 1 : 1
+        return map
+      }, {})
+    },
     areaNames() {
-      return Object.keys(
-        this.areas.reduce((prev, curr) => [...prev, ...curr]).reduce((map, area) => {
-          map[area] = 1
-          return map
-        }, {})
-      )
+      return Object.keys(this.areaCount)
     },
     gridStyle() {
       return {
@@ -40,6 +40,12 @@ export default {
         'grid-template-rows': this.rows.join(' ')
       }
     }
+  },
+  methods: {
+    isMultiple(area: string) {
+      return this.areaCount[area] > 1
+    },
+    onBreak(area: string) {}
   }
 }
 </script>
