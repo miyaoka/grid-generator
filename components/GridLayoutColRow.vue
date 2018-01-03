@@ -120,7 +120,7 @@ export default {
 .grid {
   display: grid;
   grid-template-areas: 'corner columns' 'rows content';
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 60px 1fr;
   grid-template-rows: 50px 1fr;
 
   height: 100%;
