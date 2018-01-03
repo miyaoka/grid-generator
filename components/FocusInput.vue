@@ -31,8 +31,9 @@ export default {
       this.$nextTick(() => this.$refs.input.select())
     },
     onInputComplete(e) {
-      if (!this.focused || e.target.value === '') return
+      if (!this.focused) return
       this.focused = false
+      if (e.target.value === '') return
       this.$emit('input', e)
     },
     onInputCancel() {
