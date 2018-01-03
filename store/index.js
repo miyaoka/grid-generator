@@ -25,6 +25,15 @@ export const getters = {
   flattenAreas: (state) => {
     return state.areas.reduce((prev, curr) => [...prev, ...curr])
   },
+  areaCount: (state, getters) => {
+    return getters.flattenAreas.reduce((map, area) => {
+      map[area] = map[area] ? map[area] + 1 : 1
+      return map
+    }, {})
+  },
+  uniqueAreaKeys: (state, getters) => {
+    return Object.keys(getters.areaCount)
+  },
   isCombinable: (state, getters) => {
     if (getters.selectedAreaKeys.length < 2) return false
 

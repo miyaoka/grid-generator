@@ -5,7 +5,7 @@
     :class="{ 'is-combinable': isCombinable }"
   >
     <div
-      v-for="(area, i) in uniqueAreas"
+      v-for="(area, i) in uniqueAreaKeys"
       :key="i"
       :style="{'grid-area': area }"
       class="grid-cell"
@@ -40,16 +40,7 @@ export default {
   },
   computed: {
     ...mapState(['areas', 'columns', 'rows', 'selectedAreaMap']),
-    ...mapGetters(['flattenAreas', 'isCombinable']),
-    uniqueAreas() {
-      return Object.keys(this.areaCount)
-    },
-    areaCount() {
-      return this.flattenAreas.reduce((map, area) => {
-        map[area] = map[area] ? map[area] + 1 : 1
-        return map
-      }, {})
-    },
+    ...mapGetters(['flattenAreas', 'isCombinable', 'uniqueAreaKeys', 'areaCount']),
     gridStyle() {
       return {
         'grid-template-areas': this.areas.map(area => `"${area.join(' ')}"`).join(' '),
