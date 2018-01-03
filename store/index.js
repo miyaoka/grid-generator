@@ -77,6 +77,7 @@ export const mutations = {
   },
   renameArea(state, { oldValue, newValue }) {
     state.areas = state.areas.map((area) => area.map((a) => (a === oldValue ? newValue : a)))
+    Vue.delete(state.selectedAreaMap, [oldValue])
   },
   updateColumn(state, { index, value }) {
     state.columns.splice(index, 1, value)
