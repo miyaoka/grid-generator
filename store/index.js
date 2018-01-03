@@ -110,7 +110,7 @@ export const mutations = {
   updateRow(state, { index, value }) {
     state.rows.splice(index, 1, value)
   },
-  breakArea(state, { area }) {
+  splitArea(state, { area }) {
     let i = 0
     state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
     Vue.delete(state.selectedAreaMap, [area])

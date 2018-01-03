@@ -20,12 +20,12 @@
 
       <button
         v-if="isMultiple(area)"
-        @click="breakArea({area})"
-      >break</button>
+        @click="splitArea({area})"
+      >Split</button>
       <button
         v-if="isCombinable && selectedAreaMap[area]"
         @click="combineArea({area})"
-      >combine</button>
+      >Combine</button>
     </div>
   </section>
 </template>
@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['breakArea', 'renameArea', 'toggleArea', 'combineArea']),
+    ...mapMutations(['splitArea', 'renameArea', 'toggleArea', 'combineArea']),
     isMultiple(area: string) {
       return this.areaCount[area] > 1
     }
