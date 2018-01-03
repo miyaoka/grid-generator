@@ -37,13 +37,29 @@
     <GridLayoutContent
       class="content"
     />
+    <div class="column-change">
+      <button
+        @click="pushColumn"
+      >+</button>
+      <button
+        @click="popColumn"
+      >-</button>
+    </div>
+    <div class="row-change">
+      <button
+        @click="pushRow"
+      >+</button>
+      <button
+        @click="popRow"
+      >-</button>
+    </div>
 
   </div>
 </template>
 
 <script lang="ts">
-import GridLayoutContent from '~/components/GridLayoutContent.vue'
 import { mapState, mapMutations } from 'vuex'
+import GridLayoutContent from '~/components/GridLayoutContent.vue'
 
 export default {
   components: {
@@ -76,7 +92,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['updateColumn', 'updateRow'])
+    ...mapMutations(['updateColumn', 'updateRow', 'pushColumn', 'popColumn', 'pushRow', 'popRow'])
   }
 }
 </script>
@@ -84,9 +100,9 @@ export default {
 <style lang="scss" scoped>
 .grid {
   display: grid;
-  grid-template-areas: '. columns' 'rows content';
-  grid-template-columns: 100px 1fr;
-  grid-template-rows: 50px 1fr;
+  grid-template-areas: '. columns columnChange' 'rows content .' 'rowChange . .';
+  grid-template-columns: 100px 1fr 40px;
+  grid-template-rows: 50px 1fr 40px;
 
   height: 100%;
 }
@@ -103,6 +119,14 @@ export default {
   grid-area: rows;
   background: #efe;
 }
+
+.column-change {
+  grid-area: columnChange;
+}
+.row-change {
+  grid-area: rowChange;
+}
+
 .content {
   grid-area: content;
 }

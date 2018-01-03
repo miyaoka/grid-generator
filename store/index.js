@@ -18,6 +18,24 @@ export const mutations = {
   rows(state, payload) {
     state.rows = payload
   },
+  pushColumn(state) {
+    state.columns.push('1fr')
+    const c = state.columns.length - 1
+    state.areas = state.areas.map((area, r) => [...area, `a-${r}-${c}`])
+  },
+  popColumn(state) {
+    state.columns.pop()
+    state.areas = state.areas.map((area) => area.slice(0, -1))
+  },
+  pushRow(state) {
+    state.rows.push('1fr')
+    const r = state.rows.length - 1
+    state.areas.push(Array.from(new Array(state.columns.length).keys()).map((c) => `a-${r}-${c}`))
+  },
+  popRow(state) {
+    state.rows.pop()
+    state.areas = state.areas.slice(0, -1)
+  },
   renameArea(state, { oldValue, newValue }) {
     state.areas = state.areas.map((area) => area.map((a) => (a === oldValue ? newValue : a)))
   },
