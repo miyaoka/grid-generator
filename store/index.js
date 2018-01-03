@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export const state = () => ({
   areas: [
     ['header', 'header', 'header'],
@@ -5,7 +7,8 @@ export const state = () => ({
     ['footer', 'footer', 'footer']
   ],
   columns: ['120px', '4fr', '1fr'],
-  rows: ['160px', '1fr', '80px']
+  rows: ['160px', '1fr', '80px'],
+  selectedAreas: {}
 })
 export const getters = {}
 export const mutations = {
@@ -49,5 +52,16 @@ export const mutations = {
     let i = 0
     console.log('break', area)
     state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
+  },
+  toggleArea(state, { area }) {
+    console.log(area)
+    if (state.selectedAreas[area]) {
+      Vue.delete(state.selectedAreas, [area])
+    } else {
+      state.selectedAreas = {
+        ...state.selectedAreas,
+        [area]: true
+      }
+    }
   }
 }

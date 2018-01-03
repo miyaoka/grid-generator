@@ -4,10 +4,12 @@
     :style="gridStyle"
   >
     <div
-      v-for="(area, i) in flatAreas"
+      v-for="(area, i) in uniqueAreas"
       :key="i"
       :style="{'grid-area': area }"
       class="grid-cell"
+      :class="{selected:$store.state.selectedAreas[area]}"
+      @click.self="toggleArea({area})"
     >
       <FocusInput
         class="focus-input"
@@ -36,6 +38,9 @@ export default {
     flatAreas() {
       return this.areas.reduce((prev, curr) => [...prev, ...curr])
     },
+    uniqueAreas() {
+      return Object.keys(this.areaCount)
+    },
     areaCount() {
       return this.flatAreas.reduce((map, area) => {
         map[area] = map[area] ? map[area] + 1 : 1
@@ -54,7 +59,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['breakArea', 'renameArea']),
+    ...mapMutations(['breakArea', 'renameArea', 'toggleArea']),
     isMultiple(area: string) {
       return this.areaCount[area] > 1
     }
@@ -78,6 +83,10 @@ export default {
   display:grid;
   justify-items: center;
   align-items: center;
+
+  &.selected {
+    background: #ff0;
+  }
 }
 
 .focus-input {
