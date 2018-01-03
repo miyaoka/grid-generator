@@ -12,7 +12,7 @@
       >
         <input
           type="text"
-          :value="columns[i]"
+          :value="column"
           @input="updateColumn(i, $event.target.value)"
         >
       </div>
@@ -29,7 +29,7 @@
       >
         <input
           type="text"
-          :value="rows[i]"
+          :value="row"
           @input="updateRow(i, $event.target.value)"
         >
       </div>
@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['areas', 'columns', 'rows']),
+    ...mapState(['columns', 'rows']),
     columnStyle() {
       return {
         'grid-template-columns': this.columns.join(' '),
