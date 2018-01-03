@@ -9,7 +9,7 @@
       :key="i"
       :style="{'grid-area': area }"
       class="grid-cell"
-      :class="{selected:$store.state.selectedAreaMap[area]}"
+      :class="{selected: selectedAreaMap[area]}"
       @click.self="toggleArea({area})"
     >
       <FocusInput
@@ -23,7 +23,7 @@
         @click="breakArea({area})"
       >break</button>
       <button
-        v-if="isCombinable"
+        v-if="isCombinable && selectedAreaMap[area]"
         @click="combineArea({area})"
       >combine</button>
     </div>
@@ -39,7 +39,7 @@ export default {
     FocusInput
   },
   computed: {
-    ...mapState(['areas', 'columns', 'rows']),
+    ...mapState(['areas', 'columns', 'rows', 'selectedAreaMap']),
     ...mapGetters(['flattenAreas', 'isCombinable']),
     uniqueAreas() {
       return Object.keys(this.areaCount)
