@@ -10,7 +10,7 @@
       :style="{'grid-area': area }"
       class="grid-cell"
       :class="{selected: selectedAreaMap[area]}"
-      @click.self="toggleArea({area})"
+      @click.self="toggleSlectArea({area})"
     >
       <FocusInput
         class="focus-input"
@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['splitArea', 'renameArea', 'toggleArea', 'combineArea']),
+    ...mapMutations(['splitArea', 'renameArea', 'toggleSlectArea', 'combineArea']),
     isMultiple(area: string) {
       return this.areaCount[area] > 1
     }

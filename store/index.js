@@ -110,12 +110,7 @@ export const mutations = {
   updateRow(state, { index, value }) {
     state.rows.splice(index, 1, value)
   },
-  splitArea(state, { area }) {
-    let i = 0
-    state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
-    state.selectedAreaMap = {}
-  },
-  toggleArea(state, { area }) {
+  toggleSlectArea(state, { area }) {
     if (state.selectedAreaMap[area]) {
       Vue.delete(state.selectedAreaMap, [area])
     } else {
@@ -124,6 +119,11 @@ export const mutations = {
         [area]: true
       }
     }
+  },
+  splitArea(state, { area }) {
+    let i = 0
+    state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
+    state.selectedAreaMap = {}
   },
   combineArea(state, { area }) {
     state.areas = state.areas.map((row) =>
