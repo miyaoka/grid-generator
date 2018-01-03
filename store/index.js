@@ -23,5 +23,10 @@ export const mutations = {
   },
   row(state, { index, value }) {
     state.rows.splice(index, 1, value)
+  },
+  breakArea(state, { area }) {
+    let i = 0
+    console.log('break', area)
+    state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
   }
 }

@@ -29,7 +29,7 @@
       >
         <input
           type="text"
-          :value="columns[i]"
+          :value="rows[i]"
           @input="updateRow(i, $event.target.value)"
         >
       </div>

@@ -9,8 +9,11 @@
       :style="{'grid-area': area }"
       class="grid-cell"
     >
-      <p>{{area}} {{areaCount[area]}}</p>
-      <button v-if="isMultiple(area)">break</button>
+      <p>{{area}} ({{areaCount[area]}})</p>
+      <button
+        v-if="isMultiple(area)"
+        @click="breakArea(area)"
+      >break</button>
     </div>
   </section>
 </template>
@@ -25,7 +28,7 @@ export default {
       return this.areas.reduce((prev, curr) => [...prev, ...curr])
     },
     areaCount() {
-      return this.areas.reduce((prev, curr) => [...prev, ...curr]).reduce((map, area) => {
+      return this.flatAreas.reduce((map, area) => {
         map[area] = map[area] ? map[area] + 1 : 1
         return map
       }, {})
@@ -35,7 +38,7 @@ export default {
     },
     gridStyle() {
       return {
-        'grid-template-areas': this.areas.map(area => `'${area.join(' ')}'`).join(' '),
+        'grid-template-areas': this.areas.map(area => `"${area.join(' ')}"`).join(' '),
         'grid-template-columns': this.columns.join(' '),
         'grid-template-rows': this.rows.join(' ')
       }
@@ -45,7 +48,9 @@ export default {
     isMultiple(area: string) {
       return this.areaCount[area] > 1
     },
-    onBreak(area: string) {}
+    breakArea(area: string) {
+      this.$store.commit('breakArea', { area })
+    }
   }
 }
 </script>
