@@ -9,12 +9,11 @@
       :style="{'grid-area': area }"
       class="grid-cell"
     >
-      <p>{{area}}</p>
-      <input
-        type="text"
+      <FocusInput
+        class="focus-input"
         :value="area"
         @input="renameArea({oldValue: area, newValue: $event.target.value})"
-      >
+      />
 
       <button
         v-if="isMultiple(area)"
@@ -26,8 +25,12 @@
 
 <script lang="ts">
 import { mapState, mapMutations } from 'vuex'
+import FocusInput from '~/components/FocusInput.vue'
 
 export default {
+  components: {
+    FocusInput
+  },
   computed: {
     ...mapState(['areas', 'columns', 'rows']),
     flatAreas() {
@@ -75,5 +78,9 @@ export default {
   display:grid;
   justify-items: center;
   align-items: center;
+}
+
+.focus-input {
+  font-size: 20px;
 }
 </style>
