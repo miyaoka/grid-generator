@@ -1,5 +1,10 @@
 import Vue from 'vue'
+import Hashids from 'hashids'
 
+const hashids = new Hashids()
+const getId = () => {
+  return 'area-' + hashids.encode(new Date().valueOf()).slice(0, 5)
+}
 const getCoords = (col, i) => {
   return [Math.floor(i % col), Math.floor(i / col)]
 }
@@ -57,23 +62,33 @@ export const mutations = {
   rows(state, payload) {
     state.rows = payload
   },
-  pushColumn(state) {
-    state.columns.push('1fr')
-    const c = state.columns.length - 1
-    state.areas = state.areas.map((area, r) => [...area, `a-${r}-${c}`])
+  insertColumn(state, { index }) {
+    const areaId = getId()
+    state.columns.splice(index, 0, '1fr')
+    state.areas = state.areas.map((area, r) => {
+      area.splice(index, 0, areaId)
+      return area
+    })
   },
-  popColumn(state) {
-    state.columns.pop()
-    state.areas = state.areas.map((area) => area.slice(0, -1))
+  removeColumn(state, { index }) {
+    state.columns.splice(index, 1)
+    state.areas = state.areas.map((area) => {
+      area.splice(index, 1)
+      return area
+    })
   },
-  pushRow(state) {
-    state.rows.push('1fr')
-    const r = state.rows.length - 1
-    state.areas.push(Array.from(new Array(state.columns.length).keys()).map((c) => `a-${r}-${c}`))
+  insertRow(state, { index }) {
+    const areaId = getId()
+    state.rows.splice(index, 0, '1fr')
+    state.areas.splice(
+      index,
+      0,
+      Array.from(new Array(state.columns.length).keys()).map((c) => areaId)
+    )
   },
-  popRow(state) {
-    state.rows.pop()
-    state.areas = state.areas.slice(0, -1)
+  removeRow(state, { index }) {
+    state.rows.splice(index, 1)
+    state.areas.splice(index, 1)
   },
   renameArea(state, { oldValue, newValue }) {
     state.areas = state.areas.map((area) => area.map((a) => (a === oldValue ? newValue : a)))

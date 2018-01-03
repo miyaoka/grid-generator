@@ -13,8 +13,17 @@
         <input
           type="text"
           :value="column"
+          class="grid-input"
           @input="updateColumn({index: i, value: $event.target.value})"
         >
+        <div class="grid-buttons">
+          <button
+            @click="insertColumn({index: i + 1})"
+          >+</button>
+          <button
+            @click="removeColumn({index: i})"
+          >-</button>
+        </div>
       </div>
     </div>
     <div
@@ -30,29 +39,22 @@
         <input
           type="text"
           :value="row"
+          class="grid-input"
           @input="updateRow({index: i, value: $event.target.value})"
         >
+        <div>
+          <button
+            @click="insertRow({index: i + 1})"
+          >+</button>
+          <button
+            @click="removeRow({index: i})"
+          >-</button>
+        </div>
       </div>
     </div>
     <GridLayoutContent
       class="content"
     />
-    <div class="column-change">
-      <button
-        @click="pushColumn"
-      >+</button>
-      <button
-        @click="popColumn"
-      >-</button>
-    </div>
-    <div class="row-change">
-      <button
-        @click="pushRow"
-      >+</button>
-      <button
-        @click="popRow"
-      >-</button>
-    </div>
 
   </div>
 </template>
@@ -92,7 +94,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['updateColumn', 'updateRow', 'pushColumn', 'popColumn', 'pushRow', 'popRow'])
+    ...mapMutations([
+      'updateColumn',
+      'updateRow',
+      'insertColumn',
+      'removeColumn',
+      'insertRow',
+      'removeRow'
+    ])
   }
 }
 </script>
@@ -100,9 +109,9 @@ export default {
 <style lang="scss" scoped>
 .grid {
   display: grid;
-  grid-template-areas: '. columns columnChange' 'rows content .' 'rowChange . .';
-  grid-template-columns: 100px 1fr 40px;
-  grid-template-rows: 50px 1fr 40px;
+  grid-template-areas: '. columns' 'rows content';
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 50px 1fr;
 
   height: 100%;
 }
@@ -120,13 +129,6 @@ export default {
   background: #efe;
 }
 
-.column-change {
-  grid-area: columnChange;
-}
-.row-change {
-  grid-area: rowChange;
-}
-
 .content {
   grid-area: content;
 }
@@ -138,7 +140,7 @@ export default {
   justify-items: center;
   align-items: center;
 
-  & > input {
+  .grid-input {
     width: 100%;
     font-size: 16px;
   }
