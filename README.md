@@ -1,6 +1,8 @@
 # grid-generator
 
-> Nuxt.js project
+CSS Grid Layout generator inspired by https://github.com/mizchi-sandbox/grid-generator
+
+demo: https://vue-grid-generator.netlify.com/
 
 ## Build Setup
 
