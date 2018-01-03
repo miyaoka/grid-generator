@@ -3,7 +3,7 @@ import Hashids from 'hashids'
 
 const hashids = new Hashids()
 const getId = () => {
-  return 'area-' + hashids.encode(new Date().valueOf()).slice(0, 5)
+  return 'a-' + hashids.encode(new Date().valueOf()).slice(0, 5)
 }
 const getCoords = (col, i) => {
   return [Math.floor(i % col), Math.floor(i / col)]
