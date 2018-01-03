@@ -113,7 +113,7 @@ export const mutations = {
   splitArea(state, { area }) {
     let i = 0
     state.areas = state.areas.map((row) => row.map((col) => (col === area ? `${col}-${i++}` : col)))
-    Vue.delete(state.selectedAreaMap, [area])
+    state.selectedAreaMap = {}
   },
   toggleArea(state, { area }) {
     if (state.selectedAreaMap[area]) {
@@ -129,6 +129,6 @@ export const mutations = {
     state.areas = state.areas.map((row) =>
       row.map((col) => (state.selectedAreaMap[col] ? area : col))
     )
-    state.selectedAreaMap = { [area]: true }
+    state.selectedAreaMap = {}
   }
 }
