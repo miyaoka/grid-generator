@@ -28,7 +28,7 @@ export default {
   methods: {
     onInputStart() {
       this.focused = true
-      this.$nextTick(() => this.$refs.input.focus())
+      this.$nextTick(() => this.$refs.input.select())
     },
     onInputComplete(e) {
       if (!this.focused || e.target.value === '') return
