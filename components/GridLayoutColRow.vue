@@ -18,11 +18,11 @@
         >
         <div class="grid-buttons">
           <button
-            @click="insertColumn({index: i + 1})"
-          >+</button>
-          <button
             @click="removeColumn({index: i})"
           >-</button>
+          <button
+            @click="insertColumn({index: i + 1})"
+          >+</button>
         </div>
       </div>
     </div>
@@ -44,11 +44,11 @@
         >
         <div>
           <button
-            @click="insertRow({index: i + 1})"
-          >+</button>
-          <button
             @click="removeRow({index: i})"
           >-</button>
+          <button
+            @click="insertRow({index: i + 1})"
+          >+</button>
         </div>
       </div>
     </div>
