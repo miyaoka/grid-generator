@@ -66,7 +66,7 @@ export default {
 }
 
 .grid-cell{
-  border: 1px dotted #000;
+  border: 1px dashed #888;
   background: #ccc;
   width: 100%;
   height: 100%;
