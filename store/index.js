@@ -18,6 +18,9 @@ export const mutations = {
   rows(state, payload) {
     state.rows = payload
   },
+  renameArea(state, { oldValue, newValue }) {
+    state.areas = state.areas.map((area) => area.map((a) => (a === oldValue ? newValue : a)))
+  },
   column(state, { index, value }) {
     state.columns.splice(index, 1, value)
   },

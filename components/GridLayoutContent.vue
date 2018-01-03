@@ -9,17 +9,23 @@
       :style="{'grid-area': area }"
       class="grid-cell"
     >
-      <p>{{area}} ({{areaCount[area]}})</p>
+      <p>{{area}}</p>
+      <input
+        type="text"
+        :value="area"
+        @input="renameArea({oldValue: area, newValue: $event.target.value})"
+      >
+
       <button
         v-if="isMultiple(area)"
-        @click="breakArea(area)"
+        @click="breakArea({area})"
       >break</button>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   computed: {
@@ -45,11 +51,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['breakArea', 'renameArea']),
     isMultiple(area: string) {
       return this.areaCount[area] > 1
-    },
-    breakArea(area: string) {
-      this.$store.commit('breakArea', { area })
     }
   }
 }
