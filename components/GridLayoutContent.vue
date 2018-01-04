@@ -1,12 +1,14 @@
 <template>
-  <section
+  <transition-group
+    name="area"
+    tag="section"
     class="grid"
     :style="gridStyle"
     :class="{ 'is-combinable': isCombinable }"
   >
     <div
       v-for="(area, i) in uniqueAreaKeys"
-      :key="i"
+      :key="area"
       :style="{'grid-area': area }"
       class="grid-cell"
       :class="{selected: selectedAreaMap[area]}"
@@ -27,7 +29,7 @@
         @click="combineArea({area})"
       >Combine</button>
     </div>
-  </section>
+  </transition-group>
 </template>
 
 <script lang="ts">
@@ -86,4 +88,13 @@ export default {
 .focus-input {
   font-size: 20px;
 }
+
+.area-enter-active {
+  transition: .2s ease-out;
+}
+.area-enter {
+  opacity: 0.5;
+  transform: scale(0.2);
+}
+
 </style>
