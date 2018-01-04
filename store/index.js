@@ -74,7 +74,12 @@ export const mutations = {
   insertColumn(state, { index }) {
     const areaId = getId()
     state.columns.splice(index, 0, '1fr')
-    state.areas = state.areas.map((area, r) => {
+    state.areas = state.areas.map((area) => {
+      const curr = area[index - 1]
+      if (curr === area[index]) {
+        area = area.map((col, i) => (col === curr ? `${col}-${i < index ? 0 : 1}` : col))
+        Vue.delete(state.selectedAreaMap, [curr])
+      }
       area.splice(index, 0, areaId)
       return area
     })
