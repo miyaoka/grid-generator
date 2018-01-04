@@ -78,6 +78,7 @@ export const mutations = {
       area.splice(index, 0, areaId)
       return area
     })
+    state.selectedAreaMap = {}
   },
   removeColumn(state, { index }) {
     state.columns.splice(index, 1)
@@ -85,6 +86,7 @@ export const mutations = {
       area.splice(index, 1)
       return area
     })
+    state.selectedAreaMap = {}
   },
   insertRow(state, { index }) {
     const areaId = getId()
@@ -94,10 +96,12 @@ export const mutations = {
       0,
       Array.from(new Array(state.columns.length).keys()).map((c) => areaId)
     )
+    state.selectedAreaMap = {}
   },
   removeRow(state, { index }) {
     state.rows.splice(index, 1)
     state.areas.splice(index, 1)
+    state.selectedAreaMap = {}
   },
   renameArea(state, { oldValue, newValue }) {
     if (newValue.match(/^\d/)) return
