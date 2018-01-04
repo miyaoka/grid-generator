@@ -49,6 +49,10 @@ export default {
   grid-template-columns: ${this.columns.join(' ')};
   grid-template-rows: ${this.rows.join(' ')};
 }
+.container > div {
+  border: 1px dashed #888;
+}
+
 `
     },
     cssAreas() {
