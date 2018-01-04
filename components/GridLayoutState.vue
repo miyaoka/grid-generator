@@ -2,11 +2,19 @@
   <div class="container">
     <div>
       <h3>CSS</h3>
-      <textarea :value="cssGrid + cssAreas" class="code"></textarea>
+      <textarea
+        :value="cssGrid + cssAreas"
+        class="code"
+        readonly
+        ></textarea>
     </div>
     <div>
       <h3>HTML</h3>
-      <textarea :value="html" class="code"></textarea>
+      <textarea
+        :value="html"
+        class="code"
+        readonly
+        ></textarea>
     </div>
   </div>
 </template>
