@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <pre class="code"><code>// css
-{{cssGrid}}
-{{cssAreas}}
-
-// html
-{{html}}</code></pre>
+    <div>
+      <h3>CSS</h3>
+      <textarea :value="cssGrid + cssAreas" class="code"></textarea>
+    </div>
+    <div>
+      <h3>HTML</h3>
+      <textarea :value="html" class="code"></textarea>
+    </div>
   </div>
 </template>
 
@@ -29,16 +31,17 @@ export default {
     ...mapGetters(['flattenAreas', 'isCombinable', 'uniqueAreaKeys']),
     html() {
       return `<div class="container">
-      ${this.uniqueAreaKeys.map(area => `<div class="${area}">${area}</div>`).join('\n\t')}
+  ${this.uniqueAreaKeys.map(area => `<div class="${area}">${area}</div>`).join('\n  ')}
 </div>`
     },
     cssGrid() {
       return `.container {
   display: grid;
-  grid-template-areas: ${this.areas.map(area => `"${area.join(' ')}"`).join('\n\t\t')};
+  grid-template-areas: ${this.areas.map(area => `"${area.join(' ')}"`).join('\n  ')};
   grid-template-columns: ${this.columns.join(' ')};
   grid-template-rows: ${this.rows.join(' ')};
-}`
+}
+`
     },
     cssAreas() {
       return this.uniqueAreaKeys
@@ -55,11 +58,13 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  display: grid;
+  grid-template-rows: 70% 30%;
 }
+
 .code {
-  font-size: 12px;
-  overflow: scroll;
-  padding: 10px;
-  height: 100%;
+  width: 100%;
+  height: 80%;
 }
+
 </style>
