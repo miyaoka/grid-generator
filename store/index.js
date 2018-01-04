@@ -109,7 +109,7 @@ export const mutations = {
     state.selectedAreaMap = {}
   },
   renameArea(state, { oldValue, newValue }) {
-    if (newValue.match(/^\d/)) return
+    if (newValue.match(/^[\d|.]/)) return
     state.areas = state.areas.map((area) => area.map((a) => (a === oldValue ? newValue : a)))
     Vue.delete(state.selectedAreaMap, [oldValue])
   },
