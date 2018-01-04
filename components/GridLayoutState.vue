@@ -35,7 +35,7 @@ export default {
     cssGrid() {
       return `.container {
   display: grid;
-  grid-template-columns: ${this.areas.map(area => `"${area.join(' ')}"`).join('\n\t\t')};
+  grid-template-areas: ${this.areas.map(area => `"${area.join(' ')}"`).join('\n\t\t')};
   grid-template-columns: ${this.columns.join(' ')};
   grid-template-rows: ${this.rows.join(' ')};
 }`
