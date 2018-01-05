@@ -147,6 +147,7 @@ export default {
       border: solid 1px #000;
       border-radius: 8px;
       white-space: nowrap;
+      outline: none;
     }
   }
 }
