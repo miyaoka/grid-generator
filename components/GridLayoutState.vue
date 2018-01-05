@@ -18,8 +18,33 @@
     </div>
     <div class="menu">
       <h3>Layout</h3>
-      <button @click="setLayout(holygrailLayout)">holyGrail</button>
-      <button @click="setLayout(listLayout)">articleList</button>
+      <div>
+        Presets:
+        <button @click="setLayout(holygrailLayout)">holyGrail</button>
+        <button @click="setLayout(listLayout)">articleList</button>
+      </div>
+      <div>
+        <button @click="openModal">Manually save/load</button>
+        <transition name="modal">
+          <div
+            class="modal"
+            ref="modal"
+            v-if="showModal"
+            @click.self="closeModal"
+          >
+            <div class="save-load">
+              <h3>Current Layout Data</h3>
+              <textarea
+                :value="layoutText"
+                rows="10"
+                ref="layoutText"
+                class="layout-text"
+              ></textarea>
+              <button @click="loadLayout">Load</button>
+            </div>
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +66,7 @@ export default {
   },
   data() {
     return {
+      showModal: false,
       holygrailLayout: {
         areas: [
           ['header', 'header', 'header'],
@@ -66,7 +92,10 @@ export default {
   },
   computed: {
     ...mapState(['areas', 'columns', 'rows', 'selectedAreaMap']),
-    ...mapGetters(['flattenAreas', 'isCombinable', 'uniqueAreaKeys']),
+    ...mapGetters(['flattenAreas', 'isCombinable', 'uniqueAreaKeys', 'currentLayout']),
+    layoutText() {
+      return JSON.stringify(this.currentLayout)
+    },
     html() {
       return `<div class="container">
   ${this.uniqueAreaKeys.map(area => `<div class="${area}">${area}</div>`).join('\n  ')}
@@ -96,7 +125,17 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLayout'])
+    ...mapMutations(['setLayout']),
+    openModal() {
+      this.showModal = true
+    },
+    closeModal() {
+      this.showModal = false
+    },
+    loadLayout() {
+      this.setLayout(JSON.parse(this.$refs.layoutText.value))
+      this.closeModal()
+    }
   }
 }
 </script>
@@ -120,5 +159,39 @@ export default {
 .code {
   width: 100%;
   height: 80%;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  transition: 0.2s ease-out;
+
+  .save-load {
+    background: #fff;
+    position: absolute;
+    top: 25%;
+    right: 25%;
+    left: 25%;
+    bottom: 25%;
+    padding: 10px;
+
+    .layout-text {
+      width: 100%;
+      display: block;
+    }
+  }
+}
+.modal-enter-active,
+.modal-leave-active {
+  transition: 0.3s ease-out;
+}
+.modal-enter,
+.modal-leave-to {
+  opacity: 0;
 }
 </style>
