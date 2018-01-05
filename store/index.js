@@ -62,6 +62,12 @@ export const getters = {
   }
 }
 export const mutations = {
+  setLayout(state, { areas, columns, rows }) {
+    state.areas = areas
+    state.columns = columns
+    state.rows = rows
+    state.selectedAreaMap = {}
+  },
   areas(state, payload) {
     state.areas = payload
   },
