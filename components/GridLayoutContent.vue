@@ -60,7 +60,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .grid {
   height: 100%;
   display:grid;

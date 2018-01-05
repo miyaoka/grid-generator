@@ -2,6 +2,7 @@
   <section
     class="container"
   >
+    <h1>GridLayout</h1>
     <GridLayout />
   </section>
 </template>
@@ -16,7 +17,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .container {
   width: 100%;
   height: 100vh;

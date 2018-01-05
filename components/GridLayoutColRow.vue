@@ -116,7 +116,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .grid {
   display: grid;
   grid-template-areas: 'corner columns' 'rows content';

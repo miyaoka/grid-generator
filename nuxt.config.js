@@ -17,6 +17,10 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
+  electron: {
+    width: 1024,
+    height: 768
+  },
   /*
   ** Build configuration
   */
@@ -32,6 +36,10 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+        // Extend only webpack config for client-bundle
+        if (ctx.isClient) {
+          config.target = 'electron-renderer'
+        }
       }
     }
   }

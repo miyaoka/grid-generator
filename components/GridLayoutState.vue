@@ -68,7 +68,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .container {
   display: grid;
   grid-template-rows: 70% 30%;
