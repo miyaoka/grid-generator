@@ -62,10 +62,11 @@ export const getters = {
   }
 }
 export const mutations = {
-  setLayout(state, { areas, columns, rows }) {
-    state.areas = areas
-    state.columns = columns
-    state.rows = rows
+  setLayout(state, payload) {
+    const p = JSON.parse(JSON.stringify(payload))
+    state.areas = p.areas
+    state.columns = p.columns
+    state.rows = p.rows
     state.selectedAreaMap = {}
   },
   areas(state, payload) {
