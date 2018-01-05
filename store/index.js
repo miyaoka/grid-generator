@@ -19,6 +19,13 @@ export const state = () => ({
   selectedAreaMap: {}
 })
 export const getters = {
+  currentLayout: (state) => {
+    return {
+      areas: state.areas,
+      columns: state.columns,
+      rows: state.rows
+    }
+  },
   selectedAreaKeys: (state) => {
     return Object.keys(state.selectedAreaMap)
   },

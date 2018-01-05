@@ -1,5 +1,5 @@
 <template>
-  <div class="grid">
+  <div class="grid" v-show="loaded">
     <GridLayoutColRow class="colrow" />
     <GridLayoutState class="state" />
     <a
@@ -25,6 +25,29 @@ export default {
   components: {
     GridLayoutColRow,
     GridLayoutState
+  },
+  data() {
+    return {
+      loaded: false
+    }
+  },
+  mounted() {
+    const layout = localStorage.getItem('layout')
+    if (layout !== null) {
+      try {
+        this.$store.commit('setLayout', JSON.parse(layout))
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    this.loaded = true
+
+    this.$store.watch(
+      (state, getters) => getters.currentLayout,
+      layout => {
+        localStorage.setItem('layout', JSON.stringify(layout))
+      }
+    )
   }
 }
 </script>
@@ -45,8 +68,7 @@ export default {
   top: 0;
   right: 0;
   border: 0;
-  transform:scale(0.8);
+  transform: scale(0.8);
   transform-origin: right top;
 }
-
 </style>
