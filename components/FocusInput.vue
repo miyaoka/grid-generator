@@ -1,6 +1,6 @@
 <template>
   <span
-    @click="onInputStart"
+    @click.stop="onInputStart"
   >
     <input
       type="text"

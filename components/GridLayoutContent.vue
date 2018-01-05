@@ -7,27 +7,35 @@
     :class="{ 'is-combinable': isCombinable }"
   >
     <div
-      v-for="(area, i) in uniqueAreaKeys"
+      v-for="area in uniqueAreaKeys"
       :key="area"
       :style="{'grid-area': area }"
       class="grid-cell"
       :class="{selected: selectedAreaMap[area]}"
-      @click.self="toggleSlectArea({area})"
+      @click="toggleSlectArea({area})"
     >
-      <FocusInput
-        class="focus-input"
-        :value="area"
-        @input="renameArea({oldValue: area, newValue: $event.target.value})"
-      />
+      <div class="grid-cell-bg"></div>
+      <div class="grid-cell-inner">
 
-      <button
-        v-if="isMultiple(area)"
-        @click="splitArea({area})"
-      >Split</button>
-      <button
-        v-if="isCombinable && selectedAreaMap[area]"
-        @click="combineArea({area})"
-      >Combine</button>
+        <FocusInput
+          class="focus-input"
+          :value="area"
+          @input="renameArea({oldValue: area, newValue: $event.target.value})"
+        />
+
+        <button
+          v-if="isMultiple(area)"
+          @click.stop="splitArea({area})"
+          class="split"
+        >Split</button>
+        <button
+          v-if="isCombinable && selectedAreaMap[area]"
+          @click.stop="combineArea({area})"
+          class="combine"
+        >Combine</button>
+
+      </div>
+
     </div>
   </transition-group>
 </template>
@@ -63,25 +71,59 @@ export default {
 <style lang="scss" scoped>
 .grid {
   height: 100%;
-  display:grid;
-  grid-gap: 0px;
+  display: grid;
 }
 
-.grid-cell{
-  border: 1px dashed #888;
-  background: #ccc;
+.grid-cell {
+  border: 1px dashed #ddd;
   width: 100%;
   height: 100%;
+  padding: 4px;
 
-  display:grid;
-  justify-items: center;
-  align-items: center;
+  position: relative;
 
-  &.selected {
-    .is-combinable & {
-      background: #0f0;
+  &-bg,
+  &-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  &-bg {
+    margin: 4px;
+
+    background: #eeeef3;
+    border-radius: 10px;
+    transition: 0.1s ease-out;
+
+    .selected & {
+      background: #dedd70;
+
+      .is-combinable & {
+        background: #6ec387;
+      }
     }
-    background: #ff0;
+  }
+
+  &-inner {
+    .focus-input,
+    .split,
+    .combine {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    .focus-input {
+      top: 50%;
+    }
+    .split {
+      top: 0%;
+      transform: translateX(-50%) translateY(50%);
+    }
+    .combine {
+      bottom: 0%;
+    }
   }
 }
 
@@ -90,11 +132,10 @@ export default {
 }
 
 .area-enter-active {
-  transition: .2s ease-out;
+  transition: 0.2s ease-out;
 }
 .area-enter {
   opacity: 0.5;
   transform: scale(0.2);
 }
-
 </style>
