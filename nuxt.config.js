@@ -1,5 +1,8 @@
+const nodeExternals = require('webpack-node-externals')
+
 module.exports = {
   modules: ['~/modules/typescript'],
+  plugins: ['~plugins/vue-awesome.js'],
 
   /*
   ** Headers of the page
@@ -21,6 +24,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['vue-awesome'],
     /*
     ** Run ESLint on save
     */
@@ -32,6 +36,15 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+      }
+      if (ctx.isServer) {
+        config.externals = [
+          nodeExternals({
+            // default value for `whitelist` is
+            // [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i]
+            whitelist: [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i, /^vue-awesome/]
+          })
+        ]
       }
     }
   }
