@@ -99,7 +99,7 @@ export default {
   &-bg {
     margin: 4px;
 
-    background: #eeeef3;
+    background: #c0cbdc;
     border-radius: 10px;
     transition: 0.1s ease-out;
 
