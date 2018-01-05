@@ -19,9 +19,11 @@
         <div class="grid-buttons">
           <button
             @click="removeColumn({index: i})"
+            class="grid-button"
           >-</button>
           <button
             @click="insertColumn({index: i + 1})"
+            class="grid-button"
           >+</button>
         </div>
       </div>
@@ -42,12 +44,14 @@
           class="grid-input"
           @input="updateRow({index: i, value: $event.target.value})"
         >
-        <div>
+        <div class="grid-buttons">
           <button
             @click="removeRow({index: i})"
+            class="grid-button"
           >-</button>
           <button
             @click="insertRow({index: i + 1})"
+            class="grid-button"
           >+</button>
         </div>
       </div>
@@ -58,11 +62,11 @@
     <div class="grid-corner">
       <button
         @click="insertColumn({index: 0})"
-        class="grid-corner-col"
+        class="grid-corner-col grid-button"
       >+</button>
       <button
         @click="insertRow({index: 0})"
-        class="grid-corner-row"
+        class="grid-corner-row grid-button"
       >+</button>
     </div>
 
@@ -143,28 +147,60 @@ export default {
   grid-area: content;
 }
 
-.grid-cell{
+.grid-cell {
   border: 1px dotted #999;
 
-  display:grid;
+  display: grid;
   justify-items: center;
   align-items: center;
+  position: relative;
 
+  .columns & {
+    align-items: self-start;
+  }
   .grid-input {
     width: 100%;
     font-size: 16px;
   }
+
+  .grid-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+}
+
+.grid-button {
+  text-decoration: none;
+  background: #fff;
+  width: 30px;
+  height: 16px;
+  border: solid 1px #999;
+  border-radius: 3px;
+  font-size: 12px;
 }
 
 .grid-corner {
   grid-area: 'corner';
-  display:grid;
+  position: relative;
 
+  &-row,
+  &-col {
+    position: absolute;
+  }
   &-row {
-    justify-self: center;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-70%);
   }
   &-col {
-    justify-self: end;
+    right: 0;
+    top: 50%;
+    transform: translateY(-70%);
+    width: 16px;
+    height: 30px;
   }
 }
 </style>
