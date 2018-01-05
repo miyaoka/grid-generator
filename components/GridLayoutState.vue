@@ -24,7 +24,7 @@
         <button @click="setLayout(listLayout)">articleList</button>
       </div>
       <div>
-        <button @click="openModal">Manually save/load</button>
+        <button @click="openModal">Import / Export</button>
         <transition name="modal">
           <div
             class="modal"
@@ -32,15 +32,23 @@
             v-if="showModal"
             @click.self="closeModal"
           >
-            <div class="save-load">
-              <h3>Current Layout Data</h3>
+            <div class="import-export">
+              <h3>Import / Export</h3>
+              <h4>Current layout data</h4>
               <textarea
                 :value="layoutText"
-                rows="10"
+                rows="5"
                 ref="layoutText"
                 class="layout-text"
               ></textarea>
-              <button @click="loadLayout">Load</button>
+              <h4>
+                To export data
+              </h4>
+              Copy current layout data and keep it.
+              <h4>
+                To import data
+              </h4>
+              Override current layout data. then click <button @click="loadLayout">Import</button>
             </div>
           </div>
         </transition>
@@ -171,14 +179,15 @@ export default {
   z-index: 100;
   transition: 0.2s ease-out;
 
-  .save-load {
+  .import-export {
     background: #fff;
     position: absolute;
     top: 25%;
     right: 25%;
     left: 25%;
     bottom: 25%;
-    padding: 10px;
+    padding: 20px;
+    border-radius: 10px;
 
     .layout-text {
       width: 100%;
