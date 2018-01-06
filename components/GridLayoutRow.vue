@@ -64,7 +64,7 @@ export default {
 
   display: grid;
   justify-items: center;
-  align-items: center;
+  align-items: start;
   position: relative;
 
   .grid-input {
