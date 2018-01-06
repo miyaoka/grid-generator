@@ -44,11 +44,16 @@
               <h4>
                 To export data
               </h4>
-              Copy current layout data and keep it.
+              <p>
+                Copy current layout data above, and keep it by yourself.
+              </p>
+
               <h4>
                 To import data
               </h4>
-              Override current layout data. then click <button @click="loadLayout">Import</button>
+              <p>
+                Override current layout data. then click <button @click="loadLayout">Import</button>
+              </p>
             </div>
           </div>
         </transition>
