@@ -2,14 +2,16 @@
   <div class="grid" v-show="loaded">
     <GridLayoutColRow class="colrow" />
     <GridLayoutState class="state" />
-    <a
-      href="https://github.com/miyaoka/grid-generator"
-      target="_blank"
-      rel="noopener"
-      class="github"
-    >
-      <icon name="github" scale="3"></icon>
-    </a>
+    <nav>
+      <a
+        href="https://github.com/miyaoka/grid-generator"
+        target="_blank"
+        rel="noopener"
+        class="github"
+      >
+        <icon name="github" scale="3"></icon>
+      </a>
+    </nav>
   </div>
 </template>
 
