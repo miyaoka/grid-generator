@@ -4,57 +4,25 @@
       class="columns"
       :style="columnStyle"
     >
-      <div
+      <GridLayoutColumn
         v-for="(column, i) in columns"
         :key="i"
         :style="'c', i | gridArea"
-        class="grid-cell"
-      >
-        <input
-          type="text"
-          :value="column"
-          class="grid-input"
-          @input="updateColumn({index: i, value: $event.target.value})"
-        >
-        <div class="grid-buttons">
-          <button
-            @click="removeColumn({index: i})"
-            class="grid-button"
-          >-</button>
-          <button
-            @click="insertColumn({index: i})"
-            class="grid-button"
-          >+</button>
-        </div>
-      </div>
+        :value="column"
+        :index="i"
+      />
     </div>
     <div
       class="rows"
       :style="rowStyle"
     >
-      <div
+      <GridLayoutRow
         v-for="(row, i) in rows"
         :key="i"
         :style="'r', i | gridArea"
-        class="grid-cell"
-      >
-        <input
-          type="text"
-          :value="row"
-          class="grid-input"
-          @input="updateRow({index: i, value: $event.target.value})"
-        >
-        <div class="grid-buttons">
-          <button
-            @click="removeRow({index: i})"
-            class="grid-button"
-          >-</button>
-          <button
-            @click="insertRow({index: i})"
-            class="grid-button"
-          >+</button>
-        </div>
-      </div>
+        :value="row"
+        :index="i"
+      />
     </div>
     <GridLayoutContent
       class="content"
@@ -76,10 +44,14 @@
 <script lang="ts">
 import { mapState, mapMutations } from 'vuex'
 import GridLayoutContent from '~/components/GridLayoutContent.vue'
+import GridLayoutColumn from '~/components/GridLayoutColumn.vue'
+import GridLayoutRow from '~/components/GridLayoutRow.vue'
 
 export default {
   components: {
-    GridLayoutContent
+    GridLayoutContent,
+    GridLayoutColumn,
+    GridLayoutRow
   },
   filters: {
     gridArea(prefix: string, index: string) {
@@ -145,31 +117,6 @@ export default {
 
 .content {
   grid-area: content;
-}
-
-.grid-cell {
-  border: 1px dotted #999;
-
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  position: relative;
-
-  .columns & {
-    align-items: self-start;
-  }
-  .grid-input {
-    width: 100%;
-    font-size: 16px;
-  }
-
-  .grid-buttons {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-  }
 }
 
 .grid-button {
