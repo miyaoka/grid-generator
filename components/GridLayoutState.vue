@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <header class="header">
+      <h1>CSS Grid Layout generator</h1>
+    </header>
     <section class="css">
       <h3>CSS</h3>
       <textarea
@@ -157,8 +160,16 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: grid;
-  grid-template-areas: 'menu' 'css' 'html';
-  grid-template-rows: 150px 2fr 1fr;
+  grid-template-areas: 'header' 'menu' 'css' 'html';
+  grid-template-rows: 20px 150px 2fr 1fr;
+  grid-gap: 10px;
+}
+.header {
+  grid-area: header;
+  h1 {
+    font-size: 16px;
+    font-weight: normal;
+  }
 }
 .css {
   grid-area: css;
