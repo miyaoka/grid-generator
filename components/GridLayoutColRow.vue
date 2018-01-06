@@ -26,6 +26,7 @@
     </div>
     <GridLayoutContent
       class="content"
+      :style="areaStyle"
     />
     <div class="grid-corner">
       <button
@@ -61,9 +62,16 @@ export default {
     }
   },
   computed: {
-    ...mapState(['columns', 'rows']),
+    ...mapState(['columns', 'rows', 'gridWidth', 'gridHeight']),
+    areaStyle() {
+      return {
+        width: this.gridWidth,
+        height: this.gridHeight
+      }
+    },
     columnStyle() {
       return {
+        width: this.gridWidth,
         'grid-template-columns': this.columns.join(' '),
         'grid-template-areas': `"${Array.from(Array(this.columns.length).keys())
           .map(a => `c${a}`)
@@ -72,6 +80,7 @@ export default {
     },
     rowStyle() {
       return {
+        height: this.gridHeight,
         'grid-template-rows': this.rows.join(' '),
         'grid-template-areas': Array.from(Array(this.rows.length).keys())
           .map(a => `"r${a}"`)
@@ -80,14 +89,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'updateColumn',
-      'updateRow',
-      'insertColumn',
-      'removeColumn',
-      'insertRow',
-      'removeRow'
-    ])
+    ...mapMutations(['insertColumn', 'insertRow'])
   }
 }
 </script>

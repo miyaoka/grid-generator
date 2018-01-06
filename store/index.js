@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Hashids from 'hashids'
+import { holygrailLayout } from '~/components/Layouts'
 
 const hashids = new Hashids()
 const getId = () => {
@@ -9,13 +10,11 @@ const getCoords = (col, i) => {
   return [Math.floor(i % col), Math.floor(i / col)]
 }
 export const state = () => ({
-  areas: [
-    ['header', 'header', 'header'],
-    ['left', 'main', 'right'],
-    ['footer', 'footer', 'footer']
-  ],
-  columns: ['120px', '4fr', '1fr'],
-  rows: ['160px', '1fr', '80px'],
+  gridWidth: holygrailLayout.gridWidth,
+  gridHeight: holygrailLayout.gridHeight,
+  areas: holygrailLayout.areas,
+  columns: holygrailLayout.columns,
+  rows: holygrailLayout.rows,
   selectedAreaMap: {}
 })
 export const getters = {
@@ -23,7 +22,9 @@ export const getters = {
     return {
       areas: state.areas,
       columns: state.columns,
-      rows: state.rows
+      rows: state.rows,
+      gridWidth: state.gridWidth,
+      gridHeight: state.gridHeight
     }
   },
   selectedAreaKeys: (state) => {
@@ -69,11 +70,19 @@ export const getters = {
   }
 }
 export const mutations = {
+  setGridWidth: (state, gridWidth) => {
+    state.gridWidth = gridWidth
+  },
+  setGridHeight: (state, gridHeight) => {
+    state.gridHeight = gridHeight
+  },
   setLayout(state, payload) {
     const p = JSON.parse(JSON.stringify(payload))
     state.areas = p.areas
     state.columns = p.columns
     state.rows = p.rows
+    state.gridHeight = p.gridHeight
+    state.gridWidth = p.gridWidth
     state.selectedAreaMap = {}
   },
   areas(state, payload) {

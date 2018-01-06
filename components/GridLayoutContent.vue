@@ -76,7 +76,6 @@ export default {
 
 <style lang="scss" scoped>
 .grid {
-  height: 100%;
   display: grid;
 }
 

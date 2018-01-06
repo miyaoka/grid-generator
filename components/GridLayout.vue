@@ -63,6 +63,9 @@ export default {
   height: 100%;
 }
 
+.colrow {
+  overflow: scroll;
+}
 .github {
   position: absolute;
   top: 0;

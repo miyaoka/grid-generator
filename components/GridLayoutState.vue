@@ -1,23 +1,41 @@
 <template>
   <div class="container">
-    <div class="css">
+    <section class="css">
       <h3>CSS</h3>
       <textarea
         :value="cssGrid + cssAreas"
         class="code"
         readonly
-        ></textarea>
-    </div>
-    <div class="html">
+      ></textarea>
+    </section>
+    <section class="html">
       <h3>HTML</h3>
       <textarea
         :value="html"
         class="code"
         readonly
-        ></textarea>
-    </div>
-    <div class="menu">
+      ></textarea>
+    </section>
+    <section class="menu">
       <h3>Layout</h3>
+
+      grid size
+      <div>
+        w:
+        <input
+          :value="gridWidth"
+          @input="setGridWidth($event.target.value)"
+        >
+      </div>
+      <div>
+        h:
+        <input
+          :value="gridHeight"
+          @input="setGridHeight($event.target.value)"
+        >
+      </div>
+
+
       <div>
         Presets:
         <button @click="setLayout(holygrailLayout)">holyGrail</button>
@@ -25,51 +43,51 @@
       </div>
       <div>
         <button @click="openModal">Import / Export</button>
-        <transition name="modal">
-          <div
-            class="modal"
-            ref="modal"
-            v-if="showModal"
-            @click.self="closeModal"
-          >
-            <div class="import-export">
-              <h3>Import / Export</h3>
-              <h4>Current layout data</h4>
-              <textarea
-                :value="layoutText"
-                rows="5"
-                ref="layoutText"
-                class="layout-text"
-              ></textarea>
-              <h4>
-                To export data
-              </h4>
-              <p>
-                Copy current layout data above, and keep it by yourself.
-              </p>
-
-              <h4>
-                To import data
-              </h4>
-              <p>
-                Override current layout data. then click <button @click="loadLayout">Import</button>
-              </p>
-            </div>
-          </div>
-        </transition>
       </div>
-    </div>
+
+    </section>
+
+
+    <transition name="modal">
+      <div
+        class="modal"
+        ref="modal"
+        v-if="showModal"
+        @click.self="closeModal"
+      >
+        <div class="import-export">
+          <h3>Import / Export</h3>
+          <h4>Current layout data</h4>
+          <textarea
+            :value="layoutText"
+            rows="5"
+            ref="layoutText"
+            class="layout-text"
+          ></textarea>
+          <h4>
+            To export data
+          </h4>
+          <p>
+            Copy current layout data above, and keep it by yourself.
+          </p>
+
+          <h4>
+            To import data
+          </h4>
+          <p>
+            Override current layout data. then click <button @click="loadLayout">Import</button>
+          </p>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import GridLayoutContent from '~/components/GridLayoutContent.vue'
+import { holygrailLayout, listLayout } from '~/components/Layouts'
 
 export default {
-  components: {
-    GridLayoutContent
-  },
   filters: {
     gridArea(prefix: string, index: string) {
       return {
@@ -80,31 +98,12 @@ export default {
   data() {
     return {
       showModal: false,
-      holygrailLayout: {
-        areas: [
-          ['header', 'header', 'header'],
-          ['left', 'main', 'right'],
-          ['footer', 'footer', 'footer']
-        ],
-        columns: ['120px', '4fr', '1fr'],
-        rows: ['160px', '1fr', '80px']
-      },
-      listLayout: {
-        areas: [
-          ['header', 'header', 'header'],
-          ['side', 'article-0', 'article-1'],
-          ['side', 'article-2', 'article-3'],
-          ['side', 'article-4', 'article-5'],
-          ['side', 'article-6', 'article-7'],
-          ['footer', 'footer', 'footer']
-        ],
-        columns: ['120px', '1fr', '1fr'],
-        rows: ['2fr', '1fr', '1fr', '1fr', '1fr', '60px']
-      }
+      holygrailLayout: holygrailLayout,
+      listLayout: listLayout
     }
   },
   computed: {
-    ...mapState(['areas', 'columns', 'rows', 'selectedAreaMap']),
+    ...mapState(['areas', 'columns', 'rows', 'selectedAreaMap', 'gridWidth', 'gridHeight']),
     ...mapGetters(['flattenAreas', 'isCombinable', 'uniqueAreaKeys', 'currentLayout']),
     layoutText() {
       return JSON.stringify(this.currentLayout)
@@ -117,6 +116,8 @@ export default {
     cssGrid() {
       return `.container {
   display: grid;
+  width: ${this.gridWidth};
+  height: ${this.gridHeight};
   grid-template-areas: ${this.areas.map(area => `"${area.join(' ')}"`).join('\n  ')};
   grid-template-columns: ${this.columns.join(' ')};
   grid-template-rows: ${this.rows.join(' ')};
@@ -138,7 +139,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLayout']),
+    ...mapMutations(['setLayout', 'setGridWidth', 'setGridHeight']),
     openModal() {
       this.showModal = true
     },
@@ -156,8 +157,8 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: grid;
-  grid-template-areas: 'css' 'html' 'menu';
-  grid-template-rows: 2fr 1fr 150px;
+  grid-template-areas: 'menu' 'css' 'html';
+  grid-template-rows: 150px 2fr 1fr;
 }
 .css {
   grid-area: css;
