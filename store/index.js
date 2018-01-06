@@ -86,35 +86,48 @@ export const mutations = {
     state.rows = payload
   },
   insertColumn(state, { index }) {
+    const targetIndex = index + 1
     const areaId = getId()
-    state.columns.splice(index, 0, '1fr')
+
+    state.columns.splice(targetIndex, 0, '1fr')
     state.areas = state.areas.map((area) => {
-      const curr = area[index - 1]
-      if (curr === area[index]) {
-        area = area.map((col, i) => (col === curr ? `${col}-${i < index ? 0 : 1}` : col))
-        Vue.delete(state.selectedAreaMap, [curr])
+      const areaName = area[index]
+      if (areaName === area[targetIndex]) {
+        area = area.map((col, i) => (col === areaName ? `${col}-${i > index ? 1 : 0}` : col))
       }
-      area.splice(index, 0, areaId)
-      return area
+      return area.splice(targetIndex, 0, areaId) && area
     })
     state.selectedAreaMap = {}
   },
   removeColumn(state, { index }) {
     state.columns.splice(index, 1)
-    state.areas = state.areas.map((area) => {
-      area.splice(index, 1)
-      return area
-    })
+    state.areas = state.areas.map((area) => area.splice(index, 1) && area)
     state.selectedAreaMap = {}
   },
   insertRow(state, { index }) {
+    const targetIndex = index + 1
     const areaId = getId()
-    state.rows.splice(index, 0, '1fr')
+    const prevArea = state.areas[index]
+    const nextArea = state.areas[targetIndex]
+
+    state.rows.splice(targetIndex, 0, '1fr')
+
+    if (prevArea && nextArea) {
+      prevArea.forEach((areaName, c) => {
+        if (nextArea[c] !== areaName) return
+
+        state.areas.forEach((row, i) => {
+          const col = row[c]
+          row[c] = col === areaName ? `${col}-${i > index ? 1 : 0}` : col
+        })
+      })
+    }
     state.areas.splice(
-      index,
+      targetIndex,
       0,
       Array.from(new Array(state.columns.length).keys()).map((c) => areaId)
     )
+
     state.selectedAreaMap = {}
   },
   removeRow(state, { index }) {

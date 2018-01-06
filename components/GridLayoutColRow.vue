@@ -22,7 +22,7 @@
             class="grid-button"
           >-</button>
           <button
-            @click="insertColumn({index: i + 1})"
+            @click="insertColumn({index: i})"
             class="grid-button"
           >+</button>
         </div>
@@ -50,7 +50,7 @@
             class="grid-button"
           >-</button>
           <button
-            @click="insertRow({index: i + 1})"
+            @click="insertRow({index: i})"
             class="grid-button"
           >+</button>
         </div>
@@ -61,11 +61,11 @@
     />
     <div class="grid-corner">
       <button
-        @click="insertColumn({index: 0})"
+        @click="insertColumn({index: -1})"
         class="grid-corner-col grid-button"
       >+</button>
       <button
-        @click="insertRow({index: 0})"
+        @click="insertRow({index: -1})"
         class="grid-corner-row grid-button"
       >+</button>
     </div>
